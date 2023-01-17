@@ -25,9 +25,16 @@ jobs:
           WITH_DEBUG: true
 
         run: |
-          sudo apt install ninja-build
-          ./scripts/CI/install_deps_ubuntu.sh
-          sudo apt install libgoogle-glog-dev
+          sudo apt install ninja-build 
+          sudo apt-get --assume-yes update
+          sudo apt-get --assume-yes install build-essential
+          # General dependencies
+          sudo apt-get --assume-yes install libatlas-base-dev libprotobuf-dev libleveldb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler
+          sudo apt-get --assume-yes install --no-install-recommends libboost-all-dev
+          # Remaining dependencies
+          sudo apt-get --assume-yes install libgflags-dev libgoogle-glog-dev
+          # LMDB is needed for Caffe training, but very likely not for inference-only
+          sudo apt-get --assume-yes install liblmdb-dev
           mkdir build
           cd build
           cmake .. -GNinja  -DGPU_MODE=CPU_ONLY -DUSE_MKL=Off -DUSE_CUDNN=Off -DCMAKE_BUILD_TYPE=Debug
