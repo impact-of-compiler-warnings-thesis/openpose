@@ -39,7 +39,7 @@ jobs:
           sudo apt-get install libopencv-dev
           mkdir build
           cd build
-          cmake .. -GNinja  -DGPU_MODE=CPU_ONLY -DUSE_MKL=Off -DUSE_CUDNN=Off -DCMAKE_BUILD_TYPE=Debug
+          cmake .. -GNinja -DGPU_MODE=CPU_ONLY -DUSE_MKL=On -DUSE_CUDNN=Off -DUSE_CUDA=Off -DCMAKE_BUILD_TYPE=Debug
           cd ..
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} ninja -C build
       - name: Run sonar-scanner
