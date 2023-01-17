@@ -20,6 +20,7 @@ jobs:
       - name: Run build-wrapper
         run: |
           sudo apt install ninja-build
+          sudo apt install cuda gflag glog protobuf
           mkdir build
           cd build
           cmake .. -GNinja
