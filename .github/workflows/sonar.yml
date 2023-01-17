@@ -27,7 +27,7 @@ jobs:
         run: |
           sudo apt install ninja-build
           ./scripts/CI/install_deps_ubuntu.sh
-
+          sudo apt install libgoogle-glog-dev
           mkdir build
           cd build
           cmake .. -GNinja  -DGPU_MODE=CPU_ONLY -DUSE_MKL=Off -DUSE_CUDNN=Off -DCMAKE_BUILD_TYPE=Debug
