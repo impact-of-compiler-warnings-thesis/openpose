@@ -27,6 +27,7 @@ jobs:
         run: |
           sudo apt install ninja-build 
           sudo apt-get --assume-yes update
+          sudo apt install -y libunwind-dev
           sudo apt-get --assume-yes install build-essential
           # General dependencies
           sudo apt-get --assume-yes install libatlas-base-dev libprotobuf-dev libleveldb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler
