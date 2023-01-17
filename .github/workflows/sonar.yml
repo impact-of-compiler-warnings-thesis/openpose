@@ -36,6 +36,7 @@ jobs:
           sudo apt-get --assume-yes install libgflags-dev libgoogle-glog-dev
           # LMDB is needed for Caffe training, but very likely not for inference-only
           sudo apt-get --assume-yes install liblmdb-dev
+          sudo apt-get install libopencv-dev
           mkdir build
           cd build
           cmake .. -GNinja  -DGPU_MODE=CPU_ONLY -DUSE_MKL=Off -DUSE_CUDNN=Off -DCMAKE_BUILD_TYPE=Debug
