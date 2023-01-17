@@ -26,6 +26,7 @@ jobs:
 
         run: |
           sudo apt install ninja-build
+          ./scripts/CI/install_deps_ubuntu.sh
           mkdir build
           cd build
           cmake .. -GNinja
