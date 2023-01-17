@@ -21,15 +21,16 @@ jobs:
 
         env:
           WITH_CUDA: false
-          WITH_CUDNN: false
+          WITH_OPEN_CL: false
           WITH_DEBUG: true
 
         run: |
           sudo apt install ninja-build
           ./scripts/CI/install_deps_ubuntu.sh
+
           mkdir build
           cd build
-          cmake .. -GNinja
+          cmake .. -GNinja  -DGPU_MODE=CPU_ONLY -DUSE_MKL=Off -DUSE_CUDNN=Off -DCMAKE_BUILD_TYPE=Debug
           cd ..
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} ninja -C build
       - name: Run sonar-scanner
