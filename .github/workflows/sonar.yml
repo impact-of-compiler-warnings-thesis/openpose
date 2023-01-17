@@ -20,8 +20,7 @@ jobs:
       - name: Run build-wrapper
         run: |
           sudo apt install ninja-build
-          sudo apt install build-essential
-          snap install protobuf
+          sudo apt install libprotobuf caffe-cuda
           mkdir build
           cd build
           cmake .. -GNinja
