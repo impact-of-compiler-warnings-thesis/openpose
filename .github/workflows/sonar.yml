@@ -17,28 +17,23 @@ jobs:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Install sonar-scanner and build-wrapper
         uses: SonarSource/sonarcloud-github-c-cpp@v1
-      - name: Run build-wrapper
+      - name: Init submodules
+        run: git submodule update --init --recursive --remote
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install ninja-build libunwind-dev build-essential libatlas-base-dev libprotobuf-dev libleveldb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler libgflags-dev libgoogle-glog-dev
+          sudo apt install --no-install-recommends libboost-all-dev
 
+          # LMDB is needed for Caffe training, but very likely not for inference-only
+          sudo apt install liblmdb-dev libopencv-dev
+      - name: Run build-wrapper
         env:
           WITH_CUDA: false
           WITH_OPEN_CL: false
           WITH_DEBUG: true
-
         run: |
-          sudo apt install ninja-build 
-          sudo apt-get --assume-yes update
-          sudo apt install -y libunwind-dev
-          sudo apt-get --assume-yes install build-essential
-          # General dependencies
-          sudo apt-get --assume-yes install libatlas-base-dev libprotobuf-dev libleveldb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler
-          sudo apt-get --assume-yes install --no-install-recommends libboost-all-dev
-          # Remaining dependencies
-          sudo apt-get --assume-yes install libgflags-dev libgoogle-glog-dev
-          # LMDB is needed for Caffe training, but very likely not for inference-only
-          sudo apt-get --assume-yes install liblmdb-dev
-          sudo apt-get install libopencv-dev
-          mkdir build
-          cd build
+          mkdir build && cd build
           cmake .. -GNinja -DGPU_MODE=CPU_ONLY 
           cd ..
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} ninja -C build
@@ -46,6 +41,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
         run: |
           sonar-scanner --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
