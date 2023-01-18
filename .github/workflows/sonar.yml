@@ -34,7 +34,7 @@ jobs:
           WITH_DEBUG: true
         run: |
           mkdir build && cd build
-          cmake .. -GNinja -DGPU_MODE=CPU_ONLY 
+          cmake .. -A x64 -T v142 -GNinja -DGPU_MODE=CPU_ONLY
           cd ..
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} ninja -C build
       - name: Run sonar-scanner
