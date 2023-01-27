@@ -46,7 +46,6 @@ jobs:
                    -DGPU_MODE=CPU_ONLY
       - name: Run build-wrapper
         run: |
-          ninja -C build CMakeFiles/openpose_lib
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make -j$(nproc) -C build
       - name: Run sonar-scanner
         env:
